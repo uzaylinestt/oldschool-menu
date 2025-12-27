@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Old School - Retro Menü</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ============================================
+           CSS VARIABLES & RESET
+        ============================================ */
+        :root {
+            --bg-dark: #1a1612;
+            --bg-card: rgba(35, 28, 22, 0.85);
+            --bg-card-hover: rgba(45, 36, 28, 0.92);
+            --accent-gold: #c9a227;
+            --accent-gold-light: #e8c547;
+            --text-primary: #f5f0e8;
+            --text-secondary: #b8a890;
+            --text-muted: #8a7a68;
+            --border-subtle: rgba(201, 162, 39, 0.2);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 20px rgba(201, 162, 39, 0.15);
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Cormorant Garamond', serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           BACKGROUND PATTERN
+        ============================================ */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        .bg-pattern::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(26, 22, 18, 0.55), rgba(26, 22, 18, 0.65));
+            backdrop-filter: blur(1px);
+        }
+
+        /* ============================================
+           PAGE CONTAINERS
+        ============================================ */
+        .page {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* ============================================
+           LANDING PAGE
+        ============================================ */
+        #landing {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .landing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            background: rgba(130, 65, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .star-icon {
+            font-size: 1.1rem;
+            color: var(--accent-gold);
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lang-icons {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            opacity: 0.6;
+            transition: var(--transition-smooth);
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .lock-btn {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            opacity: 0.6;
+            transition: var(--transition-smooth);
+        }
+
+        .lang-flag {
+            width: 24px;
+            height: auto;
+            border-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            display: block;
+        }
+
+        .lock-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .landing-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .landing-logo {
+            max-width: 260px;
+            width: 80%;
+            height: auto;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+            filter: brightness(1.6) contrast(1.2) drop-shadow(0 0 25px rgba(201, 162, 39, 0.5));
+            display: block;
+            mix-blend-mode: screen;
+        }
+
+        .retro-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--accent-gold);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .landing-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            max-width: 400px;
+        }
+
+        .landing-title span {
+            color: var(--accent-gold);
+            display: block;
+        }
+
+        .landing-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 320px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        /* Gramophone Container - Anchored to Landing Page */
+        .gramophone-fixed {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 160px;
+            height: auto;
+            z-index: 50;
+            pointer-events: none;
+            animation: fadeInUp 1s ease-out 0.5s backwards;
+        }
+
+        .gramophone-fixed .gramophone-image {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Music Notes Animation */
+        /* Music Notes Animation */
+        .gramophone-fixed .notes-container {
+            display: block;
+            position: absolute;
+            top: -40px;
+            left: -10px;
+            width: 150px;
+            height: 120px;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .music-note {
+            position: absolute;
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            opacity: 0;
+            animation: floatNote 3s ease-out infinite;
+            filter: drop-shadow(0 0 8px rgba(201, 162, 39, 0.6));
+            text-shadow: 0 0 10px rgba(201, 162, 39, 0.8);
+        }
+
+        .music-note:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .music-note:nth-child(2) {
+            left: 35%;
+            animation-delay: 0.6s;
+            font-size: 1rem;
+        }
+
+        .music-note:nth-child(3) {
+            left: 60%;
+            animation-delay: 1.2s;
+            font-size: 1.4rem;
+        }
+
+        .music-note:nth-child(4) {
+            left: 85%;
+            animation-delay: 1.8s;
+            font-size: 1.1rem;
+        }
+
+        .music-note:nth-child(5) {
+            left: 25%;
+            animation-delay: 2.4s;
+            font-size: 1rem;
+        }
+
+        .music-note:nth-child(6) {
+            left: 70%;
+            animation-delay: 3s;
+            font-size: 0.9rem;
+        }
+
+        @keyframes floatNote {
+            0% {
+                opacity: 0;
+                transform: translateY(60px) rotate(0deg) scale(0.5);
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            70% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-40px) rotate(20deg) scale(1.3);
+            }
+        }
+
+
+
+        /* Musical Notes Animation */
+        .gramophone-fixed .notes-container {
+            position: absolute;
+            top: -40px;
+            left: -20px;
+            width: 150px;
+            height: 120px;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        /* Menu Button Container - Bottom Left Corner */
+        .menu-btn-container {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            width: auto;
+            z-index: 50;
+            animation: fadeInUp 0.8s ease-out 0.6s backwards;
+        }
+
+        .menu-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #a88420 100%);
+            color: var(--bg-dark);
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-glow);
+            animation: fadeInUp 0.8s ease-out 0.6s backwards;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(201, 162, 39, 0.4);
+        }
+
+        .menu-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* ============================================
+           MENU PAGE
+        ============================================ */
+        #menu-page {
+            padding-bottom: 2rem;
+        }
+
+        .menu-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(131, 65, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .menu-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .back-btn:hover {
+            transform: translateX(-3px);
+        }
+
+        .menu-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .menu-logo {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .menu-header-icons {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Category Navigation */
+        .category-nav {
+            padding: 0.75rem 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-list {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0 1rem;
+            list-style: none;
+        }
+
+        .category-item {
+            flex-shrink: 0;
+        }
+
+        .category-btn {
+            display: block;
+            padding: 0.6rem 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid transparent;
+            border-radius: 25px;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .category-btn:hover {
+            background: rgba(201, 162, 39, 0.1);
+            color: var(--text-primary);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #a88420 100%);
+            color: var(--bg-dark);
+            border-color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Menu Content */
+        .menu-content {
+            padding: 1rem;
+        }
+
+        .category-section {
+            margin-bottom: 2rem;
+        }
+
+        .category-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .category-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        /* Food Cards */
+        .food-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .food-card {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .food-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .food-card:active {
+            transform: translateY(0);
+        }
+
+        .food-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .food-img {
+            width: 75px;
+            height: 75px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .food-name {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .food-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 0.25rem;
+        }
+
+        .food-ingredients {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.3;
+        }
+
+        .food-ingredients span {
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-style: normal;
+            margin-right: 4px;
+        }
+
+        .food-price {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            padding-left: 0.75rem;
+            white-space: nowrap;
+        }
+
+        /* Sub-category Navigation */
+        .subcategory-nav {
+            padding: 0.5rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-subtle);
+            overflow-x: auto;
+            white-space: nowrap;
+            display: none;
+            /* Only show for wines */
+            scrollbar-width: none;
+        }
+
+        .subcategory-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .subcategory-list {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0 1rem;
+            list-style: none;
+        }
+
+        .subcat-btn {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .subcat-btn.active {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            border-color: var(--accent-gold);
+        }
+
+        /* Service Charge Badge */
+        .service-charge-badge {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(131, 65, 0, 0.9);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--border-subtle);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 100;
+            box-shadow: var(--shadow-soft);
+            animation: fadeInUp 0.5s ease-out;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 360px;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: rgba(201, 162, 39, 0.05);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #a88420 100%);
+            color: var(--bg-dark);
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-top: 0.5rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 0.75rem;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        /* ============================================
+           ADMIN PANEL
+        ============================================ */
+        #admin-page {
+            padding: 1rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .admin-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.5);
+            border-radius: 8px;
+            color: #e74c3c;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.3);
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .admin-tab {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .admin-tab.active {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            font-weight: 600;
+        }
+
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .admin-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .admin-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-card-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .admin-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .admin-btn {
+            padding: 0.4rem 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-edit {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        .btn-delete {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .btn-add {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(46, 204, 113, 0.2);
+            border: 2px dashed rgba(46, 204, 113, 0.5);
+            border-radius: 12px;
+            color: #2ecc71;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-top: 1rem;
+        }
+
+        .btn-add:hover {
+            background: rgba(46, 204, 113, 0.3);
+        }
+
+        /* Edit Modal */
+        .edit-modal {
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .edit-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 600px) {
+            .edit-form {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .edit-form .form-group:nth-child(1),
+            .edit-form .form-group:nth-child(2),
+            .edit-form .image-group,
+            .edit-form .form-buttons {
+                grid-column: span 2;
+            }
+
+            /* Make image and category select full width */
+            .edit-form .form-group[id^="group-image"],
+            .edit-form .form-group[id^="group-catId"],
+            .edit-form .form-group[id^="group-subId"],
+            .edit-form .form-buttons {
+                grid-column: span 2;
+            }
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-buttons button {
+            flex: 1;
+            padding: 0.85rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        /* ============================================
+           ANIMATIONS
+        ============================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (min-width: 768px) {
+            .landing-content {
+                padding: 3rem;
+            }
+
+            .food-list {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .menu-content {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .food-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-pattern"></div>
+
+    <!-- ========================================
+         LANDING PAGE
+    ======================================== -->
+    <div id="landing" class="page active">
+        <header class="landing-header">
+            <div class="logo-section">
+                <span class="logo-text">Old School</span>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="header-icons">
+                <div class="lang-icons">
+                    <button class="lang-btn active" data-lang="az" aria-label="Azərbaycan dili">
+                        <img src="https://flagcdn.com/w40/az.png" alt="AZ" class="lang-flag">
+                    </button>
+                    <button class="lang-btn" data-lang="en" aria-label="English">
+                        <img src="https://flagcdn.com/w40/gb.png" alt="EN" class="lang-flag">
+                    </button>
+                    <button class="lang-btn" data-lang="ru" aria-label="Русский">
+                        <img src="https://flagcdn.com/w40/ru.png" alt="RU" class="lang-flag">
+                    </button>
+                </div>
+                <button class="lock-btn" id="adminTrigger" aria-label="Admin girişi">🔒</button>
+            </div>
+        </header>
+
+        <main class="landing-content">
+            <img src="logo.png" alt="Old School Logo" class="landing-logo">
+
+            <h1 class="landing-title">Retro havasında nostalji bir təcrübə</h1>
+
+            <div class="menu-btn-container">
+                <button class="menu-btn" id="openMenuBtn">
+                    <span>Menyuya bax</span>
+                    <span>↓</span>
+                </button>
+            </div>
+        </main>
+
+        <!-- Fixed Gramophone with Musical Notes - Bottom Right Corner -->
+        <div class="gramophone-fixed">
+            <div class="notes-container">
+                <span class="music-note">♪</span>
+                <span class="music-note">♫</span>
+                <span class="music-note">♩</span>
+                <span class="music-note">♬</span>
+                <span class="music-note">♪</span>
+                <span class="music-note">♫</span>
+            </div>
+            <!-- Hand-crafted Gramophone SVG Icon -->
+            <img src="gramophone_transparent.png" alt="Gramophone" class="gramophone-image">
+        </div>
+    </div>
+
+    <!-- ========================================
+         MENU PAGE
+    ======================================== -->
+    <div id="menu-page" class="page">
+        <header class="menu-header">
+            <div class="menu-top-bar">
+                <button class="back-btn" id="backBtn" aria-label="Geri">←</button>
+                <div class="menu-logo-section">
+                    <span class="menu-logo">Old School</span>
+                    <span class="star-icon">⭐</span>
+                </div>
+                <div class="menu-header-icons">
+                    <div class="lang-icons">
+                        <button class="lang-btn menu-lang-btn active" data-lang="az" aria-label="Azərbaycan dili">
+                            <img src="https://flagcdn.com/w40/az.png" alt="AZ" class="lang-flag">
+                        </button>
+                        <button class="lang-btn menu-lang-btn" data-lang="en" aria-label="English">
+                            <img src="https://flagcdn.com/w40/gb.png" alt="EN" class="lang-flag">
+                        </button>
+                        <button class="lang-btn menu-lang-btn" data-lang="ru" aria-label="Русский">
+                            <img src="https://flagcdn.com/w40/ru.png" alt="RU" class="lang-flag">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <nav class="category-nav">
+                <ul class="category-list" id="categoryList"></ul>
+            </nav>
+            <nav class="subcategory-nav" id="subCategoryNav">
+                <ul class="subcategory-list" id="subCategoryList"></ul>
+            </nav>
+        </header>
+
+        <main class="menu-content" id="menuContent"></main>
+
+        <div class="service-charge-badge" id="serviceChargeNotice">
+            Xidmət haqqı: 5%
+        </div>
+    </div>
+
+    <!-- ========================================
+         ADMIN PAGE
+    ======================================== -->
+    <div id="admin-page" class="page">
+        <header class="admin-header">
+            <h1 class="admin-title">🔧 Admin Panel</h1>
+            <button class="logout-btn" id="logoutBtn">Çıxış</button>
+        </header>
+
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="categories">Kateqoriyalar</button>
+            <button class="admin-tab" data-tab="subCategories">Alt Kateqoriyalar</button>
+            <button class="admin-tab" data-tab="foods">Yeməklər</button>
+        </div>
+
+        <section id="categoriesAdmin" class="admin-section active"></section>
+        <section id="subCategoriesAdmin" class="admin-section"></section>
+        <section id="foodsAdmin" class="admin-section"></section>
+    </div>
+
+    <!-- ========================================
+         LOGIN MODAL
+    ======================================== -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">🔐</div>
+                <h2 class="modal-title">Admin Girişi</h2>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">İstifadəçi adı</label>
+                    <input type="text" class="form-input" id="username" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifrə</label>
+                    <input type="password" class="form-input" id="password" autocomplete="current-password">
+                </div>
+                <button type="submit" class="login-btn">Daxil ol</button>
+                <p class="error-msg" id="loginError">İstifadəçi adı və ya şifrə yanlışdır!</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================
+         EDIT MODAL
+    ======================================== -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal edit-modal">
+            <div class="modal-header">
+                <div class="modal-icon" id="editModalIcon">✏️</div>
+                <h2 class="modal-title" id="editModalTitle">Düzəliş et</h2>
+            </div>
+            <form id="editForm" class="edit-form"></form>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================
+           TRANSLATIONS
+        ============================================ */
+        const uiTranslations = {
+            az: {
+                landingTitle: 'Retro havasında nostalji bir təcrübə',
+                lookAtMenu: 'Menyuya bax',
+                back: '←',
+                adminPanel: '🔧 Admin Panel',
+                logout: 'Çıxış',
+                categories: 'Kateqoriyalar',
+                subCategories: 'Alt Kateqoriyalar',
+                foods: 'Yeməklər',
+                serviceCharge: 'Xidmət haqqı: 5%',
+                loginTitle: 'Admin Girişi',
+                username: 'İstifadəçi adı',
+                password: 'Şifrə',
+                loginBtn: 'Daxil ol',
+                loginError: 'İstifadəçi adı və ya şifrə yanlışdır!',
+                editTitle: 'Düzəliş et',
+                save: 'Yadda saxla',
+                cancel: 'Ləğv et',
+                addNewCategory: '+ Yeni Kateqoriya',
+                addNewFood: '+ Yeni Yemək',
+                deleteConfirmCat: 'Bu kateqoriyanı və ona aid yeməkləri silmək istəyirsiniz?',
+                deleteConfirmFood: 'Bu yeməyi silmək istəyirsiniz?',
+                edit: 'Düzəlt',
+                delete: 'Sil',
+                name: 'Ad',
+                desc: 'Təsvir',
+                price: 'Qiymət',
+                ingredients: 'Tərkibi',
+                image: 'Şəkil URL',
+                category: 'Kateqoriya',
+                subCategory: 'Alt Kateqoriya',
+                selectSub: 'Alt kateqoriya seçin',
+                currency: '₼',
+                currPos: 'after'
+            },
+            en: {
+                landingTitle: 'A nostalgic experience in a retro atmosphere',
+                lookAtMenu: 'View Menu',
+                back: '←',
+                adminPanel: '🔧 Admin Panel',
+                logout: 'Logout',
+                categories: 'Categories',
+                subCategories: 'Subcategories',
+                foods: 'Foods',
+                serviceCharge: 'Service charge: 5%',
+                loginTitle: 'Admin Login',
+                username: 'Username',
+                password: 'Password',
+                loginBtn: 'Login',
+                loginError: 'Invalid username or password!',
+                editTitle: 'Edit',
+                save: 'Save',
+                cancel: 'Cancel',
+                addNewCategory: '+ New Category',
+                addNewFood: '+ New Food',
+                deleteConfirmCat: 'Do you want to delete this category and its foods?',
+                deleteConfirmFood: 'Do you want to delete this food?',
+                edit: 'Edit',
+                delete: 'Delete',
+                name: 'Name',
+                desc: 'Description',
+                price: 'Price',
+                ingredients: 'Ingredients',
+                image: 'Image URL',
+                category: 'Category',
+                subCategory: 'Subcategory',
+                selectSub: 'Select subcategory',
+                currency: '$',
+                currPos: 'before'
+            },
+            ru: {
+                landingTitle: 'Ностальгический опыт в стиле ретро',
+                lookAtMenu: 'Посмотреть меню',
+                back: '←',
+                adminPanel: '🔧 Админ-панель',
+                logout: 'Выйти',
+                categories: 'Категории',
+                subCategories: 'Подкатегории',
+                foods: 'Блюда',
+                serviceCharge: 'Обслуживание: 5%',
+                loginTitle: 'Вход для админа',
+                username: 'Имя пользователя',
+                password: 'Пароль',
+                loginBtn: 'Войти',
+                loginError: 'Неверное имя пользователя или пароль!',
+                editTitle: 'Редактировать',
+                save: 'Сохранить',
+                cancel: 'Отмена',
+                addNewCategory: '+ Новая категория',
+                addNewFood: '+ Новое блюдо',
+                deleteConfirmCat: 'Вы хотите удалить эту категорию и все блюда в ней?',
+                deleteConfirmFood: 'Вы хотите удалить это блюдо?',
+                edit: 'Правка',
+                delete: 'Удалить',
+                name: 'Название',
+                desc: 'Описание',
+                price: 'Цена',
+                ingredients: 'Ингредиенты',
+                image: 'URL изображения',
+                category: 'Категория',
+                subCategory: 'Подкатегория',
+                selectSub: 'Выберите подкатегорию',
+                currency: '₽',
+                currPos: 'after'
+            }
+        };
+
+        let currentLang = 'az';
+
+        function getText(data) {
+            if (!data) return '';
+            if (typeof data === 'string') return data;
+            return data[currentLang] || data['az'] || '';
+        }
+
+        function formatPrice(prices) {
+            const t = uiTranslations[currentLang];
+            // Get price for current lang, fallback to AZ, fallback to 0
+            const price = (prices[currentLang] !== undefined && prices[currentLang] !== 0)
+                ? prices[currentLang]
+                : (prices['az'] || 0);
+            const p = parseFloat(price).toFixed(2);
+            return t.currPos === 'before' ? `${t.currency}${p}` : `${p} ${t.currency}`;
+        }
+
+        /* ============================================
+           DATA - Menü Verileri
+        ============================================ */
+        const defaultMenuData = {
+            categories: [
+                { id: 'cat1', name: { az: 'Sərin içkilər', en: 'Cold Drinks', ru: 'Холодные напитки' }, icon: '🥤' },
+                { id: 'cat2', name: { az: 'İsti içkilər', en: 'Hot Drinks', ru: 'Горячие напитки' }, icon: '☕' },
+                { id: 'cat3', name: { az: 'Başlanğıclar', en: 'Appetizers', ru: 'Закуски' }, icon: '🥗' },
+                { id: 'cat4', name: { az: 'Əsas yeməklər', en: 'Main Courses', ru: 'Основные блюда' }, icon: '🍖' },
+                { id: 'cat5', name: { az: 'Desertlər', en: 'Desserts', ru: 'Десерты' }, icon: '🍰' },
+                { id: 'cat6', name: { az: 'Şərablar', en: 'Wines', ru: 'Вина' }, icon: '🍷', isWine: true }
+            ],
+            subCategories: [
+                { id: 'sub1', catId: 'cat6', name: { az: 'Qırmızı Şərablar', en: 'Red Wines', ru: 'Красные вина' } },
+                { id: 'sub2', catId: 'cat6', name: { az: 'Ağ Şərablar', en: 'White Wines', ru: 'Белые вина' } },
+                { id: 'sub3', catId: 'cat6', name: { az: 'Çəhrayı Şərablar', en: 'Rosé Wines', ru: 'Розовые вина' } }
+            ],
+            foods: [
+                // Sərin içkilər (cat1)
+                { id: 1, catId: 'cat1', name: { az: 'Limonad', en: 'Lemonade', ru: 'Лимонад' }, desc: { az: 'Təzə sıxılmış limon, nanə və buz', en: 'Freshly squeezed lemon, mint and ice', ru: 'Свежевыжатый лимон, мята и лед' }, prices: { az: 4.50, en: 3.00, ru: 250 } },
+                { id: 2, catId: 'cat1', name: { az: 'Mojito (alkolsuz)', en: 'Mojito (non-alcoholic)', ru: 'Мохито (безалкогольный)' }, desc: { az: 'Nanə, laym, şəkər və soda', en: 'Mint, lime, sugar and soda', ru: 'Мята, лайм, сахар и содовая' }, prices: { az: 5.00, en: 3.50, ru: 300 } },
+
+                // Başlanğıclar (cat3)
+                { id: 21, catId: 'cat3', name: { az: 'Cəzar Salatı', en: 'Caesar Salad', ru: 'Салат Цезарь' }, desc: { az: 'Romaine kahı, parmesan, kruton', en: 'Romaine lettuce, parmesan, croutons', ru: 'Салат Ромэн, пармезан, гренки' }, ingredients: { az: 'Toyuq, kahı, sous', en: 'Chicken, lettuce, sauce', ru: 'Курица, салат, соус' }, prices: { az: 8.50, en: 6.00, ru: 500 } },
+
+                // Əsas yeməklər (cat4)
+                { id: 31, catId: 'cat4', name: { az: 'Klassik Burger', en: 'Classic Burger', ru: 'Классический Бургер' }, desc: { az: '200gr dana əti, pendir, xüsusi sous', en: '200g beef, cheese, special sauce', ru: '200г говядины, сыр, специальный соус' }, ingredients: { az: 'Dana əti, kahı, pomidor, pendir', en: 'Beef, lettuce, tomato, cheese', ru: 'Говядина, салат, помидор, сыр' }, prices: { az: 14.00, en: 10.00, ru: 800 } }
+            ]
+        };
+
+        // Load from LocalStorage or use Default
+        let menuData = JSON.parse(localStorage.getItem('oldSchoolMenuData')) || defaultMenuData;
+
+        function saveData() {
+            localStorage.setItem('oldSchoolMenuData', JSON.stringify(menuData));
+            console.log('💾 Data saved to LocalStorage');
+        }
+
+        /* ============================================
+           DOM ELEMENTS
+        ============================================ */
+        const pages = {
+            landing: document.getElementById('landing'),
+            menu: document.getElementById('menu-page'),
+            admin: document.getElementById('admin-page')
+        };
+
+        const modals = {
+            login: document.getElementById('loginModal'),
+            edit: document.getElementById('editModal')
+        };
+
+        const elements = {
+            openMenuBtn: document.getElementById('openMenuBtn'),
+            backBtn: document.getElementById('backBtn'),
+            adminTrigger: document.getElementById('adminTrigger'),
+            logoutBtn: document.getElementById('logoutBtn'),
+            loginForm: document.getElementById('loginForm'),
+            loginError: document.getElementById('loginError'),
+            categoryList: document.getElementById('categoryList'),
+            menuContent: document.getElementById('menuContent'),
+            editForm: document.getElementById('editForm'),
+            editModalIcon: document.getElementById('editModalIcon'),
+            editModalTitle: document.getElementById('editModalTitle'),
+            subCategoryNav: document.getElementById('subCategoryNav'),
+            subCategoryList: document.getElementById('subCategoryList')
+        };
+
+        /* ============================================
+           PAGE NAVIGATION
+        ============================================ */
+        function showPage(pageId) {
+            Object.values(pages).forEach(p => p.classList.remove('active'));
+            pages[pageId].classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function closeAllModals() {
+            Object.values(modals).forEach(m => m.classList.remove('active'));
+        }
+
+        /* ============================================
+           MENU RENDERING
+        ============================================ */
+        function renderCategories() {
+            elements.categoryList.innerHTML = menuData.categories.map((cat, i) => `
+                <li class="category-item">
+                    <button class="category-btn ${i === 0 ? 'active' : ''}" data-cat-id="${cat.id}">
+                        ${cat.icon} ${getText(cat.name)}
+                    </button>
+                </li>
+            `).join('');
+
+            // Add listener to show/hide sub-navigation
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const catId = btn.dataset.catId;
+                    const cat = menuData.categories.find(c => c.id === catId);
+                    if (cat && cat.isWine) {
+                        renderSubCategories(catId);
+                        elements.subCategoryNav.style.display = 'block';
+                    } else {
+                        elements.subCategoryNav.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function renderSubCategories(catId) {
+            const subs = menuData.subCategories.filter(s => s.catId === catId);
+            elements.subCategoryList.innerHTML = subs.map((sub, i) => `
+                <li class="subcategory-item">
+                    <button class="subcat-btn ${i === 0 ? 'active' : ''}" data-sub-id="${sub.id}">
+                        ${getText(sub.name)}
+                    </button>
+                </li>
+            `).join('');
+
+            // Sub-category click to scroll
+            document.querySelectorAll('.subcat-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const subId = btn.dataset.subId;
+                    const header = document.querySelector('.menu-header');
+                    const headerHeight = header ? header.offsetHeight : 120;
+                    scrollToSubCategory(subId, headerHeight);
+                });
+            });
+        }
+
+        function renderMenuContent() {
+            elements.menuContent.innerHTML = menuData.categories.map(cat => {
+                const lang = currentLang;
+                const t = uiTranslations[lang];
+                if (cat.isWine) {
+                    const subs = menuData.subCategories.filter(s => s.catId === cat.id);
+                    return subs.map(sub => {
+                        const foods = menuData.foods.filter(f => f.subId === sub.id);
+                        return `
+                            <section class="category-section wine-section" id="section-${sub.id}" data-cat-id="${cat.id}" data-sub-id="${sub.id}">
+                                <h2 class="category-title">${cat.icon} ${getText(sub.name)}</h2>
+                                <div class="food-list">
+                                    ${foods.map(food => `
+                                        <article class="food-card" data-food-id="${food.id}">
+                                            ${food.image ? `<img src="${food.image}" class="food-img" alt="${getText(food.name)}">` : ''}
+                                            <div class="food-info">
+                                                <h3 class="food-name">${getText(food.name)}</h3>
+                                                <p class="food-desc">${getText(food.desc)}</p>
+                                                ${food.ingredients ? `<p class="food-ingredients"><span>${t.ingredients}:</span> ${getText(food.ingredients)}</p>` : ''}
+                                            </div>
+                                            <span class="food-price">${formatPrice(food.prices)}</span>
+                                        </article>
+                                    `).join('')}
+                                </div>
+                            </section>
+                        `;
+                    }).join('');
+                } else {
+                    const foods = menuData.foods.filter(f => f.catId === cat.id);
+                    return `
+                        <section class="category-section" id="section-${cat.id}" data-cat-id="${cat.id}">
+                            <h2 class="category-title">${cat.icon} ${getText(cat.name)}</h2>
+                            <div class="food-list">
+                                ${foods.map(food => `
+                                    <article class="food-card" data-food-id="${food.id}">
+                                        ${food.image ? `<img src="${food.image}" class="food-img" alt="${getText(food.name)}">` : ''}
+                                        <div class="food-info">
+                                            <h3 class="food-name">${getText(food.name)}</h3>
+                                            <p class="food-desc">${getText(food.desc)}</p>
+                                            ${food.ingredients ? `<p class="food-ingredients"><span>${t.ingredients}:</span> ${getText(food.ingredients)}</p>` : ''}
+                                        </div>
+                                        <span class="food-price">${formatPrice(food.prices)}</span>
+                                    </article>
+                                `).join('')}
+                            </div>
+                        </section>
+                    `;
+                }
+            }).join('');
+        }
+
+        /* ============================================
+           SCROLL SYNCHRONIZATION
+        ============================================ */
+        let isScrollingToCategory = false;
+
+        function setupScrollSync() {
+            const sections = document.querySelectorAll('.category-section');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const header = document.querySelector('.menu-header');
+            const headerHeight = header ? header.offsetHeight : 120;
+
+            // IntersectionObserver for auto-highlighting
+            const observerOptions = {
+                root: null,
+                rootMargin: `-${headerHeight + 20}px 0px -60% 0px`,
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                if (isScrollingToCategory) return;
+
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const catId = entry.target.dataset.catId;
+                        updateActiveCategory(catId);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+
+            // Category button clicks
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const catId = btn.dataset.catId;
+                    scrollToCategory(catId, headerHeight);
+                });
+            });
+        }
+
+        function updateActiveCategory(catId) {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.catId === catId);
+            });
+
+            const cat = menuData.categories.find(c => c.id === catId);
+            if (cat && cat.isWine) {
+                if (elements.subCategoryNav.style.display !== 'block') {
+                    renderSubCategories(catId);
+                    elements.subCategoryNav.style.display = 'block';
+                }
+            } else {
+                elements.subCategoryNav.style.display = 'none';
+            }
+
+            // Auto-scroll category nav to show active item
+            const activeBtn = document.querySelector(`.category-btn[data-cat-id="${catId}"]`);
+            if (activeBtn) {
+                activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+        }
+
+        function scrollToCategory(catId, headerHeight) {
+            const section = document.querySelector(`.category-section[data-cat-id="${catId}"]`);
+            if (!section) return;
+
+            isScrollingToCategory = true;
+            updateActiveCategory(catId);
+
+            const top = section.offsetTop - headerHeight - 10;
+            window.scrollTo({ top, behavior: 'smooth' });
+
+            setTimeout(() => {
+                isScrollingToCategory = false;
+            }, 800);
+        }
+
+        function scrollToSubCategory(subId, headerHeight) {
+            const section = document.getElementById(`section-${subId}`);
+            if (!section) return;
+
+            isScrollingToCategory = true;
+            document.querySelectorAll('.subcat-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.subId === subId);
+            });
+
+            const top = section.offsetTop - headerHeight - 10;
+            window.scrollTo({ top, behavior: 'smooth' });
+
+            setTimeout(() => {
+                isScrollingToCategory = false;
+            }, 800);
+        }
+
+        /* ============================================
+           ADMIN PANEL
+        ============================================ */
+        const adminCredentials = { username: 'affection', password: 'deep1905' };
+        let isLoggedIn = false;
+
+        function renderAdminCategories() {
+            const container = document.getElementById('categoriesAdmin');
+            const t = uiTranslations[currentLang];
+            container.innerHTML = menuData.categories.map(cat => `
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <span class="admin-card-title">${cat.icon} ${getText(cat.name)}</span>
+                        <div class="admin-card-actions">
+                            <button class="admin-btn btn-edit" onclick="editCategory('${cat.id}')">${t.edit}</button>
+                            <button class="admin-btn btn-delete" onclick="deleteCategory('${cat.id}')">${t.delete}</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('') + `<button class="btn-add" onclick="addCategory()">${t.addNewCategory}</button>`;
+        }
+
+        function renderAdminSubCategories() {
+            const container = document.getElementById('subCategoriesAdmin');
+            const t = uiTranslations[currentLang];
+            container.innerHTML = menuData.subCategories.map(sub => `
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <span class="admin-card-title">${getText(sub.name)}</span>
+                        <div class="admin-card-actions">
+                            <button class="admin-btn btn-edit" onclick="editSubCategory('${sub.id}')">${t.edit}</button>
+                            <button class="admin-btn btn-delete" onclick="deleteSubCategory('${sub.id}')">${t.delete}</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('') + `<button class="btn-add" onclick="addSubCategory()">+ ${t.subCategory}</button>`;
+        }
+
+        function renderAdminFoods() {
+            const container = document.getElementById('foodsAdmin');
+            const t = uiTranslations[currentLang];
+            let html = '';
+
+            menuData.categories.forEach(cat => {
+                const foods = menuData.foods.filter(f => f.catId === cat.id);
+                html += `<h3 style="color: var(--accent-gold); margin: 1rem 0 0.5rem; font-family: var(--font-display);">${cat.icon} ${getText(cat.name)}</h3>`;
+                html += foods.map(food => {
+                    const sub = food.subId ? menuData.subCategories.find(s => s.id === food.subId) : null;
+                    return `
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <span class="admin-card-title">
+                                    ${getText(food.name)} 
+                                    ${sub ? `<small style="color:var(--text-muted)">(${getText(sub.name)})</small>` : ''}
+                                    - ${formatPrice(food.prices)}
+                                </span>
+                                <div class="admin-card-actions">
+                                    <button class="admin-btn btn-edit" onclick="editFood(${food.id})">${t.edit}</button>
+                                    <button class="admin-btn btn-delete" onclick="deleteFood(${food.id})">${t.delete}</button>
+                                </div>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">${getText(food.desc)}</p>
+                            ${food.ingredients ? `<p style="color: var(--accent-gold); font-size: 0.75rem; margin-top: 0.25rem;"><b>${t.ingredients}:</b> ${getText(food.ingredients)}</p>` : ''}
+                        </div>
+                    `;
+                }).join('');
+            });
+
+            html += `<button class="btn-add" onclick="addFood()">${t.addNewFood}</button>`;
+            container.innerHTML = html;
+        }
+
+        function renderAdminPanel() {
+            renderAdminCategories();
+            renderAdminSubCategories();
+            renderAdminFoods();
+        }
+
+        // Admin Tab switching
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.tab}Admin`).classList.add('active');
+            });
+        });
+
+        /* ============================================
+           CRUD OPERATIONS
+        ============================================ */
+        function showEditModal(title, icon, fields, onSave, onInit) {
+            const t = uiTranslations[currentLang];
+            elements.editModalTitle.textContent = title;
+            elements.editModalIcon.textContent = icon;
+
+            elements.editForm.innerHTML = fields.map(f => `
+                <div class="form-group" id="group-${f.name}" ${f.hidden ? 'style="display:none"' : ''}>
+                    <label class="form-label">${f.label}</label>
+                    ${f.type === 'select'
+                    ? `<select class="form-input" name="${f.name}" id="field-${f.name}">${f.options.map(o =>
+                        `<option value="${o.value}" ${o.selected ? 'selected' : ''}>${o.label}</option>`
+                    ).join('')}</select>`
+                    : `<input type="${f.type || 'text'}" class="form-input" name="${f.name}" id="field-${f.name}" value="${f.value || ''}" placeholder="${f.placeholder || ''}" ${f.step ? `step="${f.step}"` : ''}>`
+                }
+                </div>
+            `).join('') + `
+                <div class="form-buttons" id="formButtons">
+                    <button type="button" class="btn-cancel" onclick="closeAllModals()">${t.cancel}</button>
+                    <button type="submit" class="btn-save">${t.save}</button>
+                </div>
+            `;
+
+            if (onInit) onInit();
+
+            elements.editForm.onsubmit = (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData.entries());
+                onSave(data);
+                closeAllModals();
+                renderAdminPanel();
+                renderCategories();
+                renderMenuContent();
+                setupScrollSync();
+            };
+
+            modals.edit.classList.add('active');
+        }
+
+        // Category CRUD
+        window.addCategory = function () {
+            const t = uiTranslations[currentLang];
+            showEditModal(t.addNewCategory, '➕', [
+                { name: 'icon', label: 'İkon (emoji)', placeholder: '🍔' },
+                { name: 'name_az', label: t.name + ' (AZ)', placeholder: t.name },
+                { name: 'name_en', label: t.name + ' (EN)', placeholder: t.name },
+                { name: 'name_ru', label: t.name + ' (RU)', placeholder: t.name }
+            ], (data) => {
+                const newId = 'cat' + (menuData.categories.length + 1);
+                menuData.categories.push({
+                    id: newId,
+                    name: { az: data.name_az, en: data.name_en, ru: data.name_ru },
+                    icon: data.icon || '📌'
+                });
+                saveData();
+            });
+        };
+
+        window.editCategory = function (catId) {
+            const cat = menuData.categories.find(c => c.id === catId);
+            if (!cat) return;
+            const t = uiTranslations[currentLang];
+            showEditModal(t.editTitle, '✏️', [
+                { name: 'icon', label: 'İkon (emoji)', value: cat.icon },
+                { name: 'name_az', label: t.name + ' (AZ)', value: cat.name.az || '' },
+                { name: 'name_en', label: t.name + ' (EN)', value: cat.name.en || '' },
+                { name: 'name_ru', label: t.name + ' (RU)', value: cat.name.ru || '' }
+            ], (data) => {
+                cat.name = { az: data.name_az, en: data.name_en, ru: data.name_ru };
+                cat.icon = data.icon || '📌';
+                saveData();
+            });
+        };
+
+        window.deleteCategory = function (catId) {
+            const t = uiTranslations[currentLang];
+            if (!confirm(t.deleteConfirmCat)) return;
+            menuData.categories = menuData.categories.filter(c => c.id !== catId);
+            menuData.foods = menuData.foods.filter(f => f.catId !== catId);
+            saveData();
+            renderAdminPanel();
+            renderCategories();
+            renderMenuContent();
+            setupScrollSync();
+        };
+
+        // SubCategory CRUD
+        window.addSubCategory = function () {
+            const t = uiTranslations[currentLang];
+            showEditModal('+ ' + t.subCategory, '➕', [
+                {
+                    name: 'catId', label: t.category, type: 'select',
+                    options: menuData.categories.map(c => ({ value: c.id, label: getText(c.name) }))
+                },
+                { name: 'name_az', label: t.name + ' (AZ)', placeholder: t.name },
+                { name: 'name_en', label: t.name + ' (EN)', placeholder: t.name },
+                { name: 'name_ru', label: t.name + ' (RU)', placeholder: t.name }
+            ], (data) => {
+                const newId = 'sub' + (menuData.subCategories.length + 1);
+                menuData.subCategories.push({
+                    id: newId,
+                    catId: data.catId,
+                    name: { az: data.name_az, en: data.name_en, ru: data.name_ru }
+                });
+                saveData();
+            });
+        };
+
+        window.editSubCategory = function (subId) {
+            const sub = menuData.subCategories.find(s => s.id === subId);
+            if (!sub) return;
+            const t = uiTranslations[currentLang];
+            showEditModal(t.editTitle, '✏️', [
+                {
+                    name: 'catId', label: t.category, type: 'select',
+                    options: menuData.categories.map(c => ({ value: c.id, label: getText(c.name), selected: c.id === sub.catId }))
+                },
+                { name: 'name_az', label: t.name + ' (AZ)', value: sub.name.az || '' },
+                { name: 'name_en', label: t.name + ' (EN)', value: sub.name.en || '' },
+                { name: 'name_ru', label: t.name + ' (RU)', value: sub.name.ru || '' }
+            ], (data) => {
+                sub.catId = data.catId;
+                sub.name = { az: data.name_az, en: data.name_en, ru: data.name_ru };
+                saveData();
+            });
+        };
+
+        window.deleteSubCategory = function (subId) {
+            const t = uiTranslations[currentLang];
+            if (!confirm(t.deleteConfirmCat)) return;
+            menuData.subCategories = menuData.subCategories.filter(s => s.id !== subId);
+            menuData.foods.forEach(f => { if (f.subId === subId) delete f.subId; });
+            saveData();
+            renderAdminPanel();
+            renderMenuContent();
+        };
+
+        // Food CRUD
+        window.addFood = function () {
+            const t = uiTranslations[currentLang];
+            showEditModal(t.addNewFood, '➕', [
+                {
+                    name: 'catId', label: t.category, type: 'select',
+                    options: [{ value: '', label: '---' }, ...menuData.categories.map(c => ({ value: c.id, label: getText(c.name) }))]
+                },
+                {
+                    name: 'subId', label: t.subCategory, type: 'select',
+                    options: [{ value: '', label: '---' }], hidden: true
+                },
+                { name: 'name_az', label: t.name + ' (AZ)', placeholder: t.name + ' (Required)' },
+                { name: 'name_en', label: t.name + ' (EN)', placeholder: t.name + ' (Optional)' },
+                { name: 'name_ru', label: t.name + ' (RU)', placeholder: t.name + ' (Optional)' },
+                { name: 'desc_az', label: t.desc + ' (AZ)', placeholder: t.desc },
+                { name: 'desc_en', label: t.desc + ' (EN)', placeholder: t.desc },
+                { name: 'desc_ru', label: t.desc + ' (RU)', placeholder: t.desc },
+                { name: 'ingredients_az', label: t.ingredients + ' (AZ)', placeholder: t.ingredients },
+                { name: 'ingredients_en', label: t.ingredients + ' (EN)', placeholder: t.ingredients },
+                { name: 'ingredients_ru', label: t.ingredients + ' (RU)', placeholder: t.ingredients },
+                { name: 'image', label: t.image, placeholder: 'https://...' },
+                { name: 'priceAZ', label: 'Qiymət (₼)', type: 'number', placeholder: '0.00', step: '0.01' },
+                { name: 'priceUSD', label: 'Qiymət ($)', type: 'number', placeholder: '0.00', step: '0.01' },
+                { name: 'priceRUB', label: 'Qiymət (₽)', type: 'number', placeholder: '0.00', step: '0.01' }
+            ], (data) => {
+                const newId = Math.max(...menuData.foods.map(f => f.id), 0) + 1;
+                menuData.foods.push({
+                    id: newId,
+                    catId: data.catId,
+                    subId: data.subId || null,
+                    name: { az: data.name_az, en: data.name_en, ru: data.name_ru },
+                    desc: { az: data.desc_az, en: data.desc_en, ru: data.desc_ru },
+                    ingredients: { az: data.ingredients_az, en: data.ingredients_en, ru: data.ingredients_ru },
+                    image: data.image,
+                    prices: {
+                        az: parseFloat(data.priceAZ) || 0,
+                        en: parseFloat(data.priceUSD) || 0,
+                        ru: parseFloat(data.priceRUB) || 0
+                    }
+                });
+                saveData();
+            }, () => {
+                const catField = document.getElementById('field-catId');
+                const subGroup = document.getElementById('group-subId');
+                const subField = document.getElementById('field-subId');
+
+                catField.onchange = () => {
+                    const cat = menuData.categories.find(c => c.id === catField.value);
+                    if (cat && cat.isWine) {
+                        subGroup.style.display = 'block';
+                        const subs = menuData.subCategories.filter(s => s.catId === cat.id);
+                        subField.innerHTML = `<option value="">---</option>` + subs.map(s => `<option value="${s.id}">${getText(s.name)}</option>`).join('');
+                    } else {
+                        subGroup.style.display = 'none';
+                        subField.value = '';
+                    }
+                };
+            });
+        };
+
+        window.editFood = function (foodId) {
+            const food = menuData.foods.find(f => f.id === foodId);
+            if (!food) return;
+            const t = uiTranslations[currentLang];
+            const cat = menuData.categories.find(c => c.id === food.catId);
+
+            showEditModal(t.editTitle, '✏️', [
+                {
+                    name: 'catId', label: t.category, type: 'select',
+                    options: menuData.categories.map(c => ({ value: c.id, label: getText(c.name), selected: c.id === food.catId }))
+                },
+                {
+                    name: 'subId', label: t.subCategory, type: 'select',
+                    options: [{ value: '', label: '---' }, ...menuData.subCategories.filter(s => s.catId === food.catId).map(s => ({ value: s.id, label: getText(s.name), selected: s.id === food.subId }))],
+                    hidden: !(cat && cat.isWine)
+                },
+                { name: 'name_az', label: t.name + ' (AZ)', value: food.name.az || '' },
+                { name: 'name_en', label: t.name + ' (EN)', value: food.name.en || '' },
+                { name: 'name_ru', label: t.name + ' (RU)', value: food.name.ru || '' },
+                { name: 'desc_az', label: t.desc + ' (AZ)', value: food.desc.az || '' },
+                { name: 'desc_en', label: t.desc + ' (EN)', value: food.desc.en || '' },
+                { name: 'desc_ru', label: t.desc + ' (RU)', value: food.desc.ru || '' },
+                { name: 'ingredients_az', label: t.ingredients + ' (AZ)', value: food.ingredients?.az || '' },
+                { name: 'ingredients_en', label: t.ingredients + ' (EN)', value: food.ingredients?.en || '' },
+                { name: 'ingredients_ru', label: t.ingredients + ' (RU)', value: food.ingredients?.ru || '' },
+                { name: 'image', label: t.image, value: food.image || '' },
+                { name: 'priceAZ', label: 'Qiymət (₼)', type: 'number', value: food.prices.az, step: '0.01' },
+                { name: 'priceUSD', label: 'Qiymət ($)', type: 'number', value: food.prices.en, step: '0.01' },
+                { name: 'priceRUB', label: 'Qiymət (₽)', type: 'number', value: food.prices.ru, step: '0.01' }
+            ], (data) => {
+                food.catId = data.catId;
+                food.subId = data.subId || null;
+                food.name = { az: data.name_az, en: data.name_en, ru: data.name_ru };
+                food.desc = { az: data.desc_az, en: data.desc_en, ru: data.desc_ru };
+                food.ingredients = { az: data.ingredients_az, en: data.ingredients_en, ru: data.ingredients_ru };
+                food.image = data.image;
+                food.prices = {
+                    az: parseFloat(data.priceAZ) || 0,
+                    en: parseFloat(data.priceUSD) || 0,
+                    ru: parseFloat(data.priceRUB) || 0
+                };
+                saveData();
+            }, () => {
+                const catField = document.getElementById('field-catId');
+                const subGroup = document.getElementById('group-subId');
+                const subField = document.getElementById('field-subId');
+
+                catField.onchange = () => {
+                    const selectedCat = menuData.categories.find(c => c.id === catField.value);
+                    if (selectedCat && selectedCat.isWine) {
+                        subGroup.style.display = 'block';
+                        const subs = menuData.subCategories.filter(s => s.catId === selectedCat.id);
+                        subField.innerHTML = `<option value="">---</option>` + subs.map(s => `<option value="${s.id}">${getText(s.name)}</option>`).join('');
+                    } else {
+                        subGroup.style.display = 'none';
+                        subField.value = '';
+                    }
+                };
+            });
+        };
+
+        window.deleteFood = function (foodId) {
+            const t = uiTranslations[currentLang];
+            if (!confirm(t.deleteConfirmFood)) return;
+            menuData.foods = menuData.foods.filter(f => f.id !== foodId);
+            saveData();
+            renderAdminPanel();
+            renderMenuContent();
+        };
+
+        /* ============================================
+           EVENT LISTENERS
+        ============================================ */
+        // Navigation
+        elements.openMenuBtn.addEventListener('click', () => {
+            showPage('menu');
+            renderCategories();
+            renderMenuContent();
+            setTimeout(setupScrollSync, 100);
+        });
+
+        elements.backBtn.addEventListener('click', () => showPage('landing'));
+
+        // Admin Login
+        elements.adminTrigger.addEventListener('click', () => {
+            modals.login.classList.add('active');
+            document.getElementById('username').focus();
+        });
+
+        elements.loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === adminCredentials.username && password === adminCredentials.password) {
+                isLoggedIn = true;
+                closeAllModals();
+                elements.loginForm.reset();
+                elements.loginError.classList.remove('show');
+                showPage('admin');
+                renderAdminPanel();
+            } else {
+                elements.loginError.classList.add('show');
+            }
+        });
+
+        elements.logoutBtn.addEventListener('click', () => {
+            isLoggedIn = false;
+            showPage('landing');
+        });
+
+        // Close modals on overlay click
+        [modals.login, modals.edit].forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeAllModals();
+            });
+        });
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAllModals();
+        });
+
+        /* ============================================
+           LANGUAGE SWITCHING
+        ============================================ */
+        function updateUIStrings() {
+            const t = uiTranslations[currentLang];
+
+            // Landing
+            document.querySelector('.landing-title').textContent = t.landingTitle;
+            const openMenuBtn = document.getElementById('openMenuBtn');
+            if (openMenuBtn) openMenuBtn.querySelector('span:first-child').textContent = t.lookAtMenu;
+
+            // Menu Page
+            document.getElementById('backBtn').textContent = t.back;
+            document.getElementById('serviceChargeNotice').textContent = t.serviceCharge;
+
+            // Admin Page
+            document.querySelector('.admin-title').textContent = t.adminPanel;
+            document.getElementById('logoutBtn').textContent = t.logout;
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.textContent = t[tab.dataset.tab];
+            });
+
+            // Modals
+            document.querySelector('#loginModal .modal-title').textContent = t.loginTitle;
+            const loginLabels = document.querySelectorAll('#loginModal .form-label');
+            loginLabels[0].textContent = t.username;
+            loginLabels[1].textContent = t.password;
+            document.querySelector('#loginModal .login-btn').textContent = t.loginBtn;
+            document.getElementById('loginError').textContent = t.loginError;
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+
+            // Update all language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            updateUIStrings();
+            renderCategories();
+            renderMenuContent();
+            if (isLoggedIn) renderAdminPanel();
+
+            console.log(`🌐 Dil dəyişdirildi: ${lang}`);
+        }
+
+        // Landing page language buttons
+        document.querySelectorAll('.lang-btn:not(.menu-lang-btn)').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.dataset.lang);
+            });
+        });
+
+        // Menu page language buttons
+        document.querySelectorAll('.menu-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.dataset.lang);
+            });
+        });
+
+        /* ============================================
+           INITIALIZATION
+        ============================================ */
+        console.log('🍽️ Old School Menü Sistemi yükləndi!');
+    </script>
+</body>
+
+</html>
