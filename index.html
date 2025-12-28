@@ -1064,7 +1064,7 @@
                         <img src="https://flagcdn.com/w40/ru.png" alt="RU" class="lang-flag">
                     </button>
                 </div>
-                <button class="lock-btn" id="adminTrigger" aria-label="Admin girişi">🔒</button>
+                <!-- <button class="lock-btn" id="adminTrigger" aria-label="Admin girişi">🔒</button> -->
             </div>
         </header>
 
@@ -1139,6 +1139,10 @@
     <!-- ========================================
          ADMIN PAGE
     ======================================== -->
+    <!-- ========================================
+         ADMIN PAGE (DISABLED)
+    ======================================== -->
+    <!--
     <div id="admin-page" class="page">
         <header class="admin-header">
             <h1 class="admin-title">🔧 Admin Panel</h1>
@@ -1155,10 +1159,24 @@
         <section id="subCategoriesAdmin" class="admin-section"></section>
         <section id="foodsAdmin" class="admin-section"></section>
     </div>
+    -->
+
+    <!-- TEMP DISABLED PAGE -->
+    <div id="admin-disabled-page" class="page"
+        style="display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; text-align: center;">
+        <h1 style="color: var(--accent-gold); font-size: 3rem; margin-bottom: 1rem; font-family: var(--font-display);">
+            404</h1>
+        <p style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 2rem;">Səhifə müvəqqəti olaraq deaktiv
+            edilib.</p>
+        <button onclick="showPage('landing')"
+            style="padding: 0.8rem 1.5rem; background: var(--accent-gold); color: #000; border: none; border-radius: 50px; font-weight: bold; cursor: pointer;">Ana
+            Səhifəyə Qayıt</button>
+    </div>
 
     <!-- ========================================
          LOGIN MODAL
     ======================================== -->
+    <!--
     <div class="modal-overlay" id="loginModal">
         <div class="modal">
             <div class="modal-header">
@@ -1179,10 +1197,12 @@
             </form>
         </div>
     </div>
+    -->
 
     <!-- ========================================
          EDIT MODAL
     ======================================== -->
+    <!--
     <div class="modal-overlay" id="editModal">
         <div class="modal edit-modal">
             <div class="modal-header">
@@ -1192,8 +1212,12 @@
             <form id="editForm" class="edit-form"></form>
         </div>
     </div>
+    -->
 
     <script>
+        // FEATURE FLAG: Admin disable
+        const ADMIN_ENABLED = false;
+
         /* ============================================
            TRANSLATIONS
         ============================================ */
@@ -1367,7 +1391,8 @@
         const pages = {
             landing: document.getElementById('landing'),
             menu: document.getElementById('menu-page'),
-            admin: document.getElementById('admin-page')
+            admin: document.getElementById('admin-page'),
+            disabled: document.getElementById('admin-disabled-page')
         };
 
         const modals = {
@@ -1395,13 +1420,27 @@
            PAGE NAVIGATION
         ============================================ */
         function showPage(pageId) {
-            Object.values(pages).forEach(p => p.classList.remove('active'));
-            pages[pageId].classList.add('active');
+            if (!ADMIN_ENABLED && pageId === 'admin') {
+                pageId = 'disabled';
+            }
+
+            Object.values(pages).forEach(p => {
+                if (p) p.classList.remove('active');
+            });
+
+            if (pages[pageId]) {
+                pages[pageId].classList.add('active');
+                if (pageId === 'disabled') {
+                    pages[pageId].style.display = 'flex';
+                }
+            }
             window.scrollTo(0, 0);
         }
 
         function closeAllModals() {
-            Object.values(modals).forEach(m => m.classList.remove('active'));
+            Object.values(modals).forEach(m => {
+                if (m) m.classList.remove('active');
+            });
         }
 
         /* ============================================
@@ -1970,38 +2009,49 @@
         elements.backBtn.addEventListener('click', () => showPage('landing'));
 
         // Admin Login
-        elements.adminTrigger.addEventListener('click', () => {
-            modals.login.classList.add('active');
-            document.getElementById('username').focus();
-        });
+        if (ADMIN_ENABLED && elements.adminTrigger) {
+            elements.adminTrigger.addEventListener('click', () => {
+                if (modals.login) {
+                    modals.login.classList.add('active');
+                    const userField = document.getElementById('username');
+                    if (userField) userField.focus();
+                }
+            });
+        }
 
-        elements.loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        if (ADMIN_ENABLED && elements.loginForm) {
+            elements.loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
 
-            if (username === adminCredentials.username && password === adminCredentials.password) {
-                isLoggedIn = true;
-                closeAllModals();
-                elements.loginForm.reset();
-                elements.loginError.classList.remove('show');
-                showPage('admin');
-                renderAdminPanel();
-            } else {
-                elements.loginError.classList.add('show');
-            }
-        });
+                if (username === adminCredentials.username && password === adminCredentials.password) {
+                    isLoggedIn = true;
+                    closeAllModals();
+                    elements.loginForm.reset();
+                    if (elements.loginError) elements.loginError.classList.remove('show');
+                    showPage('admin');
+                    renderAdminPanel();
+                } else {
+                    if (elements.loginError) elements.loginError.classList.add('show');
+                }
+            });
+        }
 
-        elements.logoutBtn.addEventListener('click', () => {
-            isLoggedIn = false;
-            showPage('landing');
-        });
+        if (ADMIN_ENABLED && elements.logoutBtn) {
+            elements.logoutBtn.addEventListener('click', () => {
+                isLoggedIn = false;
+                showPage('landing');
+            });
+        }
 
         // Close modals on overlay click
         [modals.login, modals.edit].forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeAllModals();
-            });
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeAllModals();
+                });
+            }
         });
 
         // Close modals on Escape key
@@ -2025,19 +2075,33 @@
             document.getElementById('serviceChargeNotice').textContent = t.serviceCharge;
 
             // Admin Page
-            document.querySelector('.admin-title').textContent = t.adminPanel;
-            document.getElementById('logoutBtn').textContent = t.logout;
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.textContent = t[tab.dataset.tab];
-            });
+            if (ADMIN_ENABLED) {
+                const adminTitle = document.querySelector('.admin-title');
+                if (adminTitle) adminTitle.textContent = t.adminPanel;
 
-            // Modals
-            document.querySelector('#loginModal .modal-title').textContent = t.loginTitle;
-            const loginLabels = document.querySelectorAll('#loginModal .form-label');
-            loginLabels[0].textContent = t.username;
-            loginLabels[1].textContent = t.password;
-            document.querySelector('#loginModal .login-btn').textContent = t.loginBtn;
-            document.getElementById('loginError').textContent = t.loginError;
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) logoutBtn.textContent = t.logout;
+
+                document.querySelectorAll('.admin-tab').forEach(tab => {
+                    tab.textContent = t[tab.dataset.tab];
+                });
+
+                // Modals
+                const loginTitle = document.querySelector('#loginModal .modal-title');
+                if (loginTitle) loginTitle.textContent = t.loginTitle;
+
+                const loginLabels = document.querySelectorAll('#loginModal .form-label');
+                if (loginLabels.length > 1) {
+                    loginLabels[0].textContent = t.username;
+                    loginLabels[1].textContent = t.password;
+                }
+
+                const loginBtn = document.querySelector('#loginModal .login-btn');
+                if (loginBtn) loginBtn.textContent = t.loginBtn;
+
+                const loginError = document.getElementById('loginError');
+                if (loginError) loginError.textContent = t.loginError;
+            }
         }
 
         function setLanguage(lang) {
