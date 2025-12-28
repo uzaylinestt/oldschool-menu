@@ -1352,17 +1352,30 @@
         ============================================ */
         const defaultMenuData = {
             categories: [
-                { id: 'cat1', name: { az: 'Sərin içkilər', en: 'Cold Drinks', ru: 'Холодные напитки' }, icon: '🥤' },
-                { id: 'cat2', name: { az: 'İsti içkilər', en: 'Hot Drinks', ru: 'Горячие напитки' }, icon: '☕' },
-                { id: 'cat3', name: { az: 'Başlanğıclar', en: 'Appetizers', ru: 'Закуски' }, icon: '🥗' },
-                { id: 'cat4', name: { az: 'Əsas yeməklər', en: 'Main Courses', ru: 'Основные блюда' }, icon: '🍖' },
-                { id: 'cat5', name: { az: 'Desertlər', en: 'Desserts', ru: 'Десерты' }, icon: '🍰' },
-                { id: 'cat6', name: { az: 'Şərablar', en: 'Wines', ru: 'Вина' }, icon: '🍷', isWine: true }
+                { id: 'cat1', name: { az: 'İsti içkilər', en: 'Hot Drinks', ru: 'Горячие напитки' }, icon: '🍵' },
+                { id: 'cat2', name: { az: 'Kofe' , en: 'Coffee' , ru: ' Кофе ' }, icon : '☕' },
+                { id: 'cat3', name: { az: 'Sərin içkilər', en: 'Cold Drinks', ru: 'Холодные напитки' }, icon: '🥤' },
+                { id: 'cat4', name: { az: 'Pivələr', en: 'Beers', ru: 'Пиво' }, icon: '🍺' },
+                { id: 'cat5', name: { az: 'Alkoqol', en: 'Alcohol', ru: ' Алкоголь' }, icon: '🍸' },
+                { id: 'cat6', name: { az: 'İçki məzəsi', en: 'Drink appetizer', ru: 'Закуска к напитку' }, icon: '🍰' },
+                { id: 'cat7', name: { az: 'Qidalar', en: 'Foods', ru: ' Еда ' }, icon: '🍔' },
+                { id: 'cat8', name: { az: 'Şirniyyat', en: 'Sweets', ru: ' Сладости ' }, icon: '🍰' },
+                { id: 'cat9', name: { az: 'Salatlar', en: 'Salads', ru: ' Салаты ' }, icon: '🥗' },
+                { id: 'cat10', name: { az: 'Kokteyller', en: 'Cocktails', ru: ' Коктейли ' }, icon: '🍹' },
+                { id: 'cat11', name: { az: ' Shot Kokteyller', en: 'Shot Cocktails', ru: ' Шот-коктейли ' }, icon: '🥂' },
+                { id: 'cat12', name: { az: 'Şərablar', en: 'Wines', ru: 'Вина' }, icon: '🍷', isWine: true }
             ],
             subCategories: [
-                { id: 'sub1', catId: 'cat6', name: { az: 'Qırmızı Şərablar', en: 'Red Wines', ru: 'Красные вина' } },
-                { id: 'sub2', catId: 'cat6', name: { az: 'Ağ Şərablar', en: 'White Wines', ru: 'Белые вина' } },
-                { id: 'sub3', catId: 'cat6', name: { az: 'Çəhrayı Şərablar', en: 'Rosé Wines', ru: 'Розовые вина' } }
+                { id: 'sub1', catId: 'cat12', name: { az: 'Qırmızı turş', en: 'Red sour', ru: 'Красный кислый' } },
+                { id: 'sub2', catId: 'cat12', name: { az: 'Qırmızı kəmturş', en: 'Red semi-sour', ru: 'Красный полукислый' } },
+                { id: 'sub3', catId: 'cat12', name: { az: 'Qırmızı kəmşirin ', en: 'Red semi-sweet', ru: 'Красный полусладкий' }
+                { id: 'sub4', catId: 'cat12', name: { az: 'Ağ turş', en: 'White sour', ru: 'Белый кислый' }
+                { id: 'sub5', catId: 'cat12', name: { az: 'Ağ kəmturş', en: 'White semi-sour', ru: 'Белый полукислый' }
+                { id: 'sub6', catId: 'cat12', name: { az: 'Ağ kəmşirin ', en: 'White semi-sweet', ru: 'Белый полусладкий' }
+                { id: 'sub7', catId: 'cat12', name: { az: 'Çəhrayı', en: 'Rosé Wines', ru: 'Розовые вина' }
+                { id: 'sub8', catId: 'cat12', name: { az: 'Gürcü Şərabları', en: 'Georgian Wines', ru: 'Грузинские вина' }
+                { id: 'sub9', catId: 'cat12', name: { az: 'Nar Şərabları', en: 'Pomegranate Wines', ru: 'Гранатовые вина' }
+                { id: 'sub10', catId: 'cat12', name: { az: 'Bir Qədəh Şərab', en: 'A Glass of Wine', ru: 'Бокал вина' }}
             ],
             foods: [
                 // Sərin içkilər (cat1)
@@ -2142,3 +2155,4 @@
 </body>
 
 </html>
+
